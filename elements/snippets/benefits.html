@@ -1,0 +1,40 @@
+
+{% set benefits = [] %}
+
+{% set bene1 = {'title': 'Frete grátis', 'subtitle': 'Benefício por ser sua primeira compra', 'figure': 'https://http2.mlstatic.com/frontend-assets/homes-palpatine/dynamic-access-desktop/new-buyer.svg', 'button':'Mostrar produtos'} %}
+{% set bene2 = {'title': 'Entre na sua conta', 'subtitle': 'Benefício por ser sua primeira compra', 'figure': 'https://http2.mlstatic.com/frontend-assets/homes-palpatine/dynamic-access-desktop/registration-da.svg', 'button':'Entrar na sua conta'} %}
+{% set bene3 = {'title': 'Insira sua localização', 'subtitle': 'Confira os custos e prazos de entrega', 'figure': 'https://http2.mlstatic.com/frontend-assets/homes-palpatine/dynamic-access-desktop/location.svg', 'button':'Inserir localização'} %}
+{% set bene4 = {'title': 'Meios de pagamento', 'subtitle': 'Pague suas compras com rapidez e segurança', 'figure': 'https://http2.mlstatic.com/frontend-assets/homes-palpatine/dynamic-access-desktop/payment-methods.svg', 'button':'Mostrar meios'} %}
+{% set bene5 = {'title': 'Menos de R$100', 'subtitle': 'Confira produtos com preços baixos', 'figure': 'https://http2.mlstatic.com/frontend-assets/homes-palpatine/dynamic-access-desktop/mlb-low-price-product.svg', 'button':'Mostrar produtos'} %}
+{% set bene6 = {'title': 'Mais vendidos', 'subtitle': 'Explore os produtos que são tendência', 'figure': 'https://http2.mlstatic.com/frontend-assets/homes-palpatine/dynamic-access-desktop/top-sale.svg', 'button':'Ir para Mais vendidos'} %}
+{% set bene7 = {'title': 'Compra garantida', 'subtitle': 'Você pode devolver sua compra grátis', 'figure': 'https://http2.mlstatic.com/frontend-assets/homes-palpatine/dynamic-access-desktop/buy-protected.svg', 'button':'Mostrar produtos'} %}
+{% set bene8 = {'title': 'Nossas categorias', 'subtitle': 'Encontre celulares, roupas, imóveis e muito mais', 'figure': 'https://http2.mlstatic.com/frontend-assets/homes-palpatine/dynamic-access-desktop/categories.svg', 'button':'Ir para Categorias'} %}
+{% set benefits = benefits|merge([bene1,bene2,bene3,bene4,bene5,bene6,bene7,bene8]) %}
+
+<div class="container benefit-container">
+    <div class="swiper" id="benefit" aria-label="Seus acessos dinâmicos" aria-roledescription="Carrossel">
+        <div class="swiper mySwiperBene">
+            <div class="swiper-wrapper">
+
+                {% for benefit in benefits %}
+                <div class="swiper-slide">
+                    <div class="mdc-card info-card info-card--success">
+                        <div class="card-inner">
+                            <h2 class="card-title text-muted">{{benefit.title}}</h2>
+                            <div class="card-icon-wrapper">
+                                <img loading="lazy" class="lazyload" src="{{ asset('img/empty.png') }}" data-src="{{ benefit.figure }}" alt="{{ benefit.subtitle }}" width="100" height="100">
+                            </div>
+                            <p class="text-muted">{{benefit.subtitle}}</p>
+                            <a href="https://demofullapp.commercesuite.com.br/?cupom=frete_frete_primeria_compra" class="outlined-button--info">
+                                {{benefit.button}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</div>

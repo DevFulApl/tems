@@ -1,0 +1,67 @@
+{# Modulo  banner-home #}
+{% element 'snippets/banner-home' %}
+
+
+{# Modulo  benefits #}
+{% element 'snippets/benefits' %}
+
+{# Position : banners.showcase Banners Mode_layout : full Total_Banners : 1 Slides : false Type : image #}
+{% element 'snippets/banner-line' { 'banner_id': 'showcase', 'banner_type': 'container' , 'mode_layout': 'full'} %}
+
+
+
+{# Showcase 1 #}
+{% element 'showcase' { 'rand' : settings.showcase_rand_products, 'type' : settings.showcase_type_1, 'quantity' : settings.showcase_quantity_1 } %}
+{# Position : bottom Banners Mode_layout : full Total_Banners : 1 or 2 Slides : false Type : no rotativo #}
+{% element 'snippets/banner-grid' %}
+
+
+{# Position : banners.extra1 Banners Mode_layout : full Total_Banners : 1 Slides : false Type : image #}
+{% element 'snippets/banner-line' { 'banner_id': 'extra1', 'banner_type': 'container' , 'mode_layout': 'full'} %}
+
+{# Showcase 2 #}
+{% element 'showcase' { 'rand' : settings.showcase_rand_products, 'type' : settings.showcase_type_1, 'quantity' : settings.showcase_quantity_1 } %}
+
+
+{# Position : banners.Extra5 Javascript Banners Mode_layout : grid Total_Banners : 3 or 6 Slides : false Type : no rotativo #}
+{% element 'snippets/banner-line' { 'banner_id': 'extra5', 'banner_type': 'container', 'mode_layout': 'grid' } %}
+
+{# Showcase 3 #}
+{% element 'showcase' { 'rand' : settings.showcase_rand_products, 'type' : settings.showcase_type_1, 'quantity' : settings.showcase_quantity_1 } %}
+
+{# Showcase 4 #}
+{% element 'showcase' { 'rand' : settings.showcase_rand_products, 'type' : settings.showcase_type_1, 'quantity' : settings.showcase_quantity_1 } %}
+
+
+
+{# Position : banners.Extra7 Javascript Banners Mode_layout : grid Total_Banners : 3 or 6 Slides : false Type : no rotativo #}
+{% element 'snippets/banner-line' { 'banner_id': 'extra7', 'banner_type': 'container', 'mode_layout': 'grid' } %}
+
+{# Showcase 5 #}
+{% element 'showcase' { 'rand' : settings.showcase_rand_products, 'type' : settings.showcase_type_1, 'quantity' : settings.showcase_quantity_1 } %}
+
+
+
+{# Position : banners.title Banners Mode_layout : full Total_Banners : 1 Slides : false Type : no rotativo #}
+{% element 'snippets/banner-line' { 'banner_id': 'title', 'banner_type': 'container', 'mode_layout': 'full' } %}
+
+{# Second showcase #}
+{# {% element 'showcase' { 'rand' : settings.showcase_rand_products, 'type' : settings.showcase_type_2, 'quantity' : settings.showcase_quantity_2 } %} #}
+
+
+
+{# Position : banners.extra4 Mode_layout : full Total_Banners : 1 or 2 Slides : false Type : no rotativo #}
+{% element 'snippets/banner-line' { 'banner_id': 'extra4', 'banner_type': 'container' ,'mode_layout': 'full'} %}
+
+{# Tree showcase #}
+{% element 'showcase' { 'rand' : settings.showcase_rand_products, 'type' : settings.showcase_type_2, 'quantity' : settings.showcase_quantity_2 } %}
+
+
+{# Position : bottom Banners Mode_layout : full Total_Banners : 1 or 2 Slides : false Type : no rotativo #}
+{% element 'snippets/banner-line' { 'banner_id': 'bottom', 'banner_type': 'container' ,'mode_layout': 'full'} %}
+{# Tree showcase #}
+{% element 'showcase' { 'rand' : settings.showcase_rand_products, 'type' : settings.showcase_type_2, 'quantity' : settings.showcase_quantity_2 } %}
+
+
+{# Position : bottom Banners Mode_layout : full Total_Banners : 1 or 2 Slides : false Type : no rotativo #}
+{% element 'snippets/banner-line' { 'banner_id': 'footer', 'banner_type': 'container', 'mode_layout': 'full' } %}

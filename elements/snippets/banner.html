@@ -1,0 +1,101 @@
+{% if image %}
+    {% set item = {
+        link   : image.link ? (image.tracked_link ? image.tracked_link : image.link) : null,
+        src    : image.image ? image.image : image.src,
+        alt    : image.label ? image.label : (image.alt ? image.alt : 'Banner'),
+        target : image.target,
+        width  : image.width,
+        height : image.height
+    } %}
+
+    {% set bannerContentText = item.alt ? item.alt %}
+
+    {% set bannerContent = bannerContentText | split('|') %}
+    {% set bannerTitle = bannerContent[0] %}
+    {% set bannerDescription = bannerContent[1] | split('#')[0] %}
+    {% set bannerLink = bannerContent[1] | split('#')[1] %}
+
+    {% set lazy_class         = swiper ? 'swiper-lazy' : 'lazyload' %}
+    {% set padding_percentage = ((item.height / item.width) * 100) %}
+
+
+
+    {% if  "youtube" in item.link %}
+        {% set video_address = item.link|split('?v=')|last %}
+        {% set video_code = video_address | split('&')| first %}
+        {% set video_urlBanner = "https://www.youtube.com/embed/" ~video_address~ "?autoplay=1&rel=0&mute=1&muted=1" %}
+
+        <div class="video -horizontal"
+        {% if padding %}
+            style="padding-bottom: {{ padding_percentage }}%"
+            width="{{ item.width }}px" height="{{ item.height }}px"
+        {% endif %} >
+            <iframe
+                aria-label="{{bannerDescription}}"
+                alt="{{bannerDescription}}"
+                loading="lazy"
+                class="{{lazy_class}}"
+                data-src="{{ video_urlBanner }}"
+                frameborder="0"
+                allow="autoplay;  picture-in-picture"
+                allowfullscreen
+                >
+            </iframe>
+            <div class="skeleton"></div>
+        </div>
+
+    {% else %}
+
+
+    <{{ item.link ? 'a href="'~ item.link ~'" class="banner-link"' : 'span' }}
+        {% if item.target == '_blank' %}
+            target="_blank" rel="noopener noreferrer"
+        {% endif %}
+        {% if padding %}
+            style="--padding: {{ padding_percentage }}%"
+        {% endif %}>
+
+        {% if (id == 'title' or id == 'bottom' or id == 'footer' or id == 'extra4') %}
+            <picture>
+                <source media="(max-width: 768px)" data-srcset="
+                    {{ id == 'bottom' ? banners.bottom.slides[0]['image'] :
+                        id == 'footer' ? banners.footer.slides[0]['image'] :
+                        id == 'title' ? banners.title.slides[0]['image']:
+                        id == 'extra4' ? banners.extra4.slides[0]['image']
+
+                    }}">
+        {% endif %}
+
+        <img class="banner-img {{ swiper ? lazy_class : ( not isSlide ? lazy_class ) }}"
+        {% if swiper or ( not swiper and not isSlide) %}
+        src="{{ asset('img/empty.png') }}"
+        data-{% endif %}srcset="{{ item.src ? item.src :
+            id == 'bottom' ? banners.bottom.slides[1]['image'] :
+            id == 'footer' ? banners.footer.slides[1]['image'] :
+            id == 'title' ? banners.title.slides[1]['image']:
+            id == 'extra4' ? banners.extra4.slides[1]['image']
+        }}"
+        alt="{{ item.alt ? item.alt : 'Banner' }}"
+        width="{{ item.width }}" height="{{ item.height }}"
+        loading="lazy"
+        >
+        {% if location != 'banner-home' %}
+        <div class="skeleton"></div>
+        {% endif %}
+
+        {% if bannerTitle and bannerDescription %}
+            <div class="banner-text-content">
+                <h2 class="section-title">{{bannerTitle}}</h2>
+                <div class="banner-info">{{bannerDescription}}</div>
+                {% if bannerLink %}
+                    <div> <button class="newsletter-button button1" type="button">{{bannerLink}}</button></div>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if (id == 'title' or id == 'bottom' or id == 'footer' or id == 'extra4') %}
+            </picture>
+        {% endif %}
+    </{{ item.link ? 'a' : 'span' }}>
+
+    {% endif %}
+{% endif %}

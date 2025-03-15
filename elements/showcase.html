@@ -1,0 +1,61 @@
+{% if type %}
+
+    {% set quantity = quantity | default(12) %}
+
+    {% if type == 'top_seller' %}
+
+        {% set products = Products({
+            'filter': ['available'],
+            'order' : { 'quantity_sold': 'desc' },
+            'limit' : quantity
+        }) %}
+
+    {% else %}
+        {% if rand %}
+
+            {% set products = Products({
+                'filter': [type, 'available'],
+                'limit' : quantity,
+                'order' : 'rand'
+            }) %}
+
+        {% else %}
+
+            {% set products = Products({
+                'filter': [type, 'available'],
+                'limit' : quantity
+            }) %}
+
+        {% endif %}
+    {% endif %}
+
+    {% if products | length > 0 %}
+        <div class="section-showcase  ML_list_home">
+            <div class="container">
+
+                <div class="section-header">
+                    <h2 class="title-section">
+
+                        {% element 'snippets/title-showcase' { 'type': type } %}
+                    </h2>
+                </div>
+
+                <div class="swiper list-product flex f-wrap justify-between">
+                    <div class="swiper-wrapper">
+                        {% for item in products %}
+                            <div class="item swiper-slide">
+                                {% element 'snippets/product' {
+                                    product : item,
+                                    slide   : slide,
+                                    videoItem   : false,
+                                } %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {% endif %}
+
+{% endif %}

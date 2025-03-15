@@ -1,0 +1,129 @@
+{% set loaded_banners = load_banners(position) %}
+
+{% if loaded_banners|length > 0 %}
+  <section class="section fullbanner {{ resolution }} {{ aux }}" data-fullbanner>
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        {% for banner in loaded_banners %}
+          {# Config #}
+          {% set external = '' %}
+          {% set btn_text = banner.subtitle %}
+          {% set position_text = 'center-center' %}
+
+          {% if '|' in banner.subtitle %}
+            {% set subtitle_parts = banner.subtitle|split('|') %}
+            {% set btn_text = subtitle_parts|first %}
+            {% set position_text = subtitle_parts|last %}
+          {% endif %}
+
+          {% if banner.external %}
+            {% set external = "target='_blank'" %}
+          {% endif %}
+
+          <div class="swiper-slide">
+            {% if "youtube" in banner.url or "vimeo" in banner.url %}
+
+              {# BANNER COM VIDEO #}
+              {% if "youtube" in banner.url %}
+                {% set video_address = banner.url|split("?v=")|last %}
+                {% set video_code = video_address|split('&')|first|trim %}
+                {% set video_url = "https://www.youtube.com/embed/" ~ video_code ~ "?autoplay=1&rel=0&mute=1&muted=1" %}
+              {% elseif "vimeo" in banner.url %}
+                {% set video_code = banner.url|split("/")|last|trim %}
+                {% set video_url = "https://player.vimeo.com/video/" ~ video_code ~ "?autoplay=1&title=0&byline=0&portrait=0&loop=1&background=1&muted=1" %}
+              {% endif %}
+
+              {% if video_url is defined %}
+                <div class="video {% if 'mobile' in resolution %}-vertical {% else %} -horizontal {% endif %}">
+                  <iframe
+                    aria-label="{{ banner.title }}"
+                    alt="{{ banner.title }}"
+                    class="lazy"
+                    loading="lazy"
+                    data-src="{{ video_url }}"
+                    frameborder="0"
+                    allow="autoplay; picture-in-picture"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              {% endif %}
+
+            {% elseif banner.file_url is not empty %}
+
+              {% set data_srcset %}
+                {{ resize(banner.file_url, '360x') }} 360w,
+                {{ resize(banner.file_url, '480x') }} 480w,
+                {{ resize(banner.file_url, '780x') }} 780w,
+                {{ resize(banner.file_url, '991x') }} 991w,
+                {{ resize(banner.file_url, '1280x') }} 1280w,
+                {{ resize(banner.file_url, '1440x') }} 1440w,
+                {{ banner.file_url }} 1920w,
+              {% endset %}
+
+              {% set data_sizes %}
+                (max-width: 360px) 360px,
+                (max-width: 480px) 480px,
+                (max-width: 767px) 780px,
+                (max-width: 991px) 991px,
+                (max-width: 1280px) 1280px,
+                (max-width: 1440px) 1440px,
+                1920px
+              {% endset %}
+
+              {% if banner.url is not empty %}
+                <a href="{{ banner.url }}" {{ external }} class="link">
+              {% endif %}
+
+              {# BANNER SIMPLES, COM IMAGEM #}
+              <figure class="image {% if mobile %}-vertical {% else %}-horizontal {% endif %}">
+                {% if loop.first %}
+                  {% block head %}
+                    <link rel="preload" as="image" href="{{ banner.file_url }}" imagesrcset="{{ data_srcset|trim|replace({'\n': ''}) }}" imagesizes="{{ data_sizes|trim|replace({'\n': ''}) }}">
+                  {% endblock %}
+
+                  <img
+                    alt="{{ banner.title }}"
+                    srcset="{{ data_srcset|trim|replace({'\n': ''}) }}"
+                    sizes="{{ data_sizes|trim|replace({'\n': ''}) }}"
+                  />
+                {% else %}
+                  <img
+                    class="lazy"
+                    loading="lazy"
+                    alt="{{ banner.title }}"
+                    data-srcset="{{ data_srcset|trim|replace({'\n': ''}) }}"
+                    sizes="{{ data_sizes|trim|replace({'\n': ''}) }}"
+                  />
+                {% endif %}
+              </figure>
+
+              {% if banner.description is not empty or btn_text is not empty %}
+                <div class="text {{ position_text }} {% if banner.description is empty %}-no-text{% endif %}"{% if banner.color is not empty %} style="--fb-color: {{ banner.color }}"{% endif %}>
+                  {% if banner.description is not empty %}
+                    {{ banner.description|replace({'<h1': '<h2', '<h2': '<h2 class="title"', '<h3': '<h3 class="upper-title"', '<p': '<p class="description"'})|raw }}
+                  {% endif %}
+
+                  {% if banner.url is not empty and btn_text is not empty %}
+                    <button type="button" class="button-default -outlined">
+                      {{ btn_text }}
+                    </button>
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              {% if banner.url is not empty %}
+                </a>
+              {% endif %}
+
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      {% if not mobile %}
+        <button type="button" class="swiper-button-next" aria-label="Próximo slide"></button>
+        <button type="button" class="swiper-button-prev" aria-label="Slide anterior"></button>
+      {% endif %}
+      <div class="swiper-pagination"></div>
+    </div>
+  </section>
+{% endif %}

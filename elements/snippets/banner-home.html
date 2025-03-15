@@ -1,0 +1,51 @@
+
+{% set slideshow = utils.is_mobile ? banners.mobile : banners.home %}
+{% if slideshow %}
+
+    {% set slideConfigs = {
+        'stopOnHover' : (settings.banner_home_stop_hover ? true : false),
+        'timer'       : 10000,
+        'isMobile'    : utils.is_mobile
+    } %}
+
+    <div class="banner-home banner-slides" data-settings="{{ slideConfigs | json_encode() | escape }}" data-slides="banner">
+        {% if slideshow.type == 'javascript' %}
+
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    {% for slide in slideshow.slides %}
+                        {% set lazyIndex = loop.index == 1 ? false : true %}
+                        <div class="swiper-slide item">
+                            {% element 'snippets/banner' {
+                                image    : slide,
+                                padding  : true,
+                                location : 'banner-home'
+                            } %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="dots">
+                    {% for list in slideshow.slides %}
+                        <div class="dot{{ loop.index == 1 ? ' dot-active' }}"></div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        {% else %}
+
+            <div class="item">
+                {% element 'snippets/banner' {
+                    image    : slideshow,
+                    swiper   : false,
+                    padding  : true,
+                    isSlide: false,
+                    location : 'banner-home'
+                } %}
+            </div>
+
+        {% endif %}
+        <div class="gradient"></div>
+    </div>
+
+{% endif %}

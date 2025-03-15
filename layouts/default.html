@@ -1,0 +1,143 @@
+{% spaceless %}
+
+<!doctype html>
+<html
+    lang="pt-br"
+    data-tray-theme="{{ settings.theme_name }}"
+    data-tray-theme-version=""
+    data-files="{{ utils.assets_version }}"
+    data-store="{{ store.id }}"
+    class="page-{{ pages.current }} no-js">
+
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport"              content="width=device-width, initial-scale=1">
+
+        {# Minified variable is used for helping development #}
+        {% set minified = true %}
+
+        {{ html.charset() }}
+        {% set metatags = tray.meta %}
+
+		{% for metatag in metatags|split('\n') %}
+			{% if 'dns-prefetch' in metatag %}
+				{{ metatag|replace({'dns-prefetch': 'preconnect'}) }}
+			{% endif %}
+			{{ metatag }}
+		{% endfor %}
+
+		<link rel="canonical" href="{{store.url}}" />
+
+        {# Cor da Barra do Navegador #}
+		{% if settings.color_primary_medium %}
+			{# Chrome, Firefox OS and Opera #}
+			<meta name="theme-color" content="{{ settings.color_primary_medium }}">
+			{# Windows Phone #}
+			<meta name="msapplication-navbutton-color" content="{{ settings.color_primary_medium }}">
+			{# iOS Safari #}
+			<meta name="mobile-web-app-capable" content="yes">
+			<meta name="mobile-mobile-web-app-status-bar-style" content="{{ settings.color_primary_medium }}">
+		{% endif %}
+
+        {% element 'head-metas' %}
+        {% element 'css-variables' %}
+        {% element 'styles' { minified : false } %}
+
+        {{ tray.analytics }}
+        {{ googleTagManager.header(pages.current, tagManagerData) }}
+
+    </head>
+    <body>
+
+        {{ googleTagManager.top(pages.current, tagManagerData) }}
+        {% element 'snippets/modals-theme' %}
+
+        <div class="overlay-shadow"></div>
+        <div class="application">
+
+            {% element 'snippets/menu-mobile' %}
+            {% element 'header' %}
+
+            <main class="site-main">
+                {% if not ('home' in pages.current) %}
+                <div class="page-content {{ pages.current in ['catalog', 'home', 'search'] ? ' not-padding' }}">
+                {% endif %}
+
+                    {% if "central" in pages.current %}
+
+                        <div class="container">
+                            <div class="line-panel flex">
+                                {%  element 'sidebar-central' %}
+                                <div class="col-panel">
+                                    {{ content_for_layout }}
+                                </div>
+                            </div>
+                        </div>
+
+                    {% elseif 'home' in pages.current %}
+
+                        {{ content_for_layout }}
+
+                    {% else %}
+
+                        {% set special_pages = [
+                            'listas',
+                            'depoimentos-de-clientes',
+                            'noticias'
+                        ] %}
+
+                        {% set title = '' %}
+
+                        {% for page in pages.custom %}
+                            {% if ('empresa' in page.slug and pages.current == 'company') or (pages.current == page.slug and page.slug not in special_pages) %}
+                                {% set title = page.name %}
+                            {% endif %}
+                        {% endfor %}
+
+                        <div class="container {% if title != '' %} is-custom-page {% endif %}">
+
+                            {% if title != '' %}
+                                <div class="page-title">
+                                    <span class="text">
+                                        {{ title }}
+                                    </span>
+                                </div>
+                            {% endif %}
+
+                            {{ content_for_layout }}
+
+                        </div>
+
+                    {% endif %}
+                {% if not pages.current == 'home' %}
+                </div>
+                {% endif %}
+
+            </main>
+            {% element 'footer' %}
+
+            {# *ATENTION!! NO CONFIGURADO
+
+            {% if settings.show_whatsapp_button %}
+                {% element 'snippets/whatsapp' { 'local': 'floating' } %}
+            {% endif %}
+            #}
+
+        </div>
+        <div>
+            {% element 'snippets/messages' %}
+        </div>
+
+        {# {% element 'snippets/pageview' %}
+         #}
+        {% element 'snippets/modal' %}
+
+        {% element 'scripts' { minified : false } %}
+
+        {{ store.chat }}
+        {{ googleTagManager.bottom(pages.current, tagManagerData) }}
+
+    </body>
+</html>
+
+{% endspaceless %}

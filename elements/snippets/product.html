@@ -1,0 +1,127 @@
+{% set hover_class = product.available and (product.stock > 0 or settings.without_stock_sale) and not product.upon_request ? 'show-down' : '' %}
+
+<div data-proid='{{ product.id }}' class="product {{ hover_class }}" {{ product.data_tray_ga4 }}>
+
+	{% if pages.current == 'catalog' and settings.compare %}
+		<div class="compare-buttons">
+
+			<a href="{{ links.compare_delete ~ product.id }}" class="flex justify-center align-center {{ not product.compare ? 'compare-hidden' }}" data-compare="remove">
+				<span class="filter-checkbox checked"></span>
+				{{ Translation("remover_comparar") }}
+			</a>
+
+			<a href="{{ links.compare_add ~ product.id }}" class="flex justify-center align-center {{ product.compare ? 'compare-hidden' }}" data-compare="add">
+				<span class="filter-checkbox"></span>
+				{{ Translation("comparar_produto") }}
+			</a>
+
+		</div>
+	{% endif %}
+
+	<div class="image">
+		{% set image_size = utils.is_mobile ? "medium" : "large" %}
+
+		{% set image_class = slide ? 'swiper-lazy' : 'lazyload' %}
+
+		<a href="{{ product.link }}" class="space-image">
+            <figure class="img-square">
+                {% if 'vimeo' in product.video %}
+                    <div class="iframe-video">
+                        <iframe
+                            aria-label="{{ product.name }} {{ loop.index }}"
+                            class="{{image_class}}"
+                            data-src="{{ product.video }}"
+                            frameborder="0"
+                            allow="autoplay;  picture-in-picture"
+							{# allow="autoplay; fullscreen; picture-in-picture" #}
+                            {# src="{{ asset('img/empty.png') }}" #}
+							src="{{ asset('img/video-loader.svg') }}"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+
+                {% elseif 'youtube' in product.video %}
+                    <div class="iframe-video">
+                        <iframe
+                            aria-label="{{ product.name }} {{ loop.index }}"
+                            class="{{image_class}}"
+                            data-src="{{ product.video }}"
+                            frameborder="0"
+                            allow="autoplay;  picture-in-picture"
+							src="{{ asset('img/video-loader.svg') }}"
+							{# src="{{ asset('img/empty.png') }}" #}
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                {% endif %}
+
+                <img
+					loading="lazy"
+					class="{{ image_class }}"
+					src="{{ asset('img/empty.png') }}"
+					data-src="{{ product.images[0][image_size] }}"
+					alt="{{ product.name }}" width="283" height="283">
+
+                {% if product.images[1] and (not utils.is_mobile) %}
+                    <img
+						class="second-image product-img {{ image_class }}"
+						src="{{ asset('img/empty.png') }}"
+						data-src="{{ product.images[1][image_size] }}"
+						alt="{{ product.name }}" width="283" height="283">
+                {% endif %}
+                {# <div class="skeleton"></div> #}
+            </figure>
+		</a>
+	</div>
+
+	<a class="product-info" href="{{ product.link }}">
+		{% element 'snippets/product-tags' { 'product': product } %}
+
+		<div class="product-name">
+			{{ product.name|lower }}
+		</div>
+
+		<div class="product-price">
+			{% if product.available and (product.stock > 0 or settings.without_stock_sale) and not product.upon_request %}
+
+				{% element 'snippets/product-price' { 'product': product } %}
+
+			{% elseif product.upon_request %}
+
+				{% element 'snippets/product-message' { 'product_message': 'Sob consulta', 'know_more' : 'Saiba mais' } %}
+
+			{% elseif product.stock <= 0 %}
+
+				{% element 'snippets/product-message' {  'product_message': 'Esse acabou :(', 'know_more' : 'Produto indispon&iacute;vel' } %}
+
+			{% else %}
+
+				{% element 'snippets/product-message' {  'product_message': 'Esse acabou :(', 'know_more' : 'Produto indispon&iacute;vel'  } %}
+
+			{% endif %}
+		</div>
+
+	</a>
+
+	<div class="actions">
+		{# {% if product.available and (product.stock > 0 or settings.without_stock_sale) and not product.upon_request %}
+			<a class="product-button" href="{{ product.link }}">
+				{{ settings.bt_comprar_vitrine }}
+			</a>
+		{% endif %} #}
+
+		{% if (settings.buy_list == false) and not product.is_kit and not product.upon_request %}
+			{% element 'snippets/add-cart' { 'product': product } %}
+		{% else %}
+			{# <a
+				href="{{ product.link }}"
+				name="ver detalhes">{{ settings.text_buy ? settings.text_buy : "Ver detalhes" }}
+			</a> #}
+			<a class="product-button flex align-center justify-center" href="{{ product.link }}">
+				{{ settings.bt_comprar_vitrine }}
+			</a>
+		{% endif %}
+
+	</div>
+
+</div>

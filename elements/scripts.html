@@ -1,0 +1,153 @@
+{% set extensionJs  = minified ? '.min.js'  : '.js'  %}
+
+{# Tray scripts #}
+
+{{ tray.scripts }}
+
+{# Caso precise remover ou alterar algum script da chamada tray.scripts
+
+{% set scripts = tray.scripts | split('\n') %}
+
+{% for script in scripts %}
+    {% if pages.current == 'login' or not ('vendors' in script) %}
+        {{ script }}
+
+    {% endif %}
+{% endfor %}
+
+#}
+
+{% if 'product' in pages.current %}
+    <script src="{{ asset('js/zoom.min.js') }}"></script>
+{% endif %}
+
+{% if 'depoimentos' in pages.current %}
+    <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+{% endif %}
+
+{# Theme Scripts #}
+
+{% set localPath = asset() | split('?') [0] %}
+<span class="hidden local-path" data-path="{{ localPath }}"></span>
+
+
+<script src="{{ asset('js/lazyload.min.js')    }}"></script>
+{# <script src="{{ asset('js/swiper.min.js')      }}"></script> #}
+{# <script src="https://cdn.jsdelivr.net/npm/swiper@11.1.15/swiper-bundle.min.js"></script> #}
+<script src="{{ asset('js/swiper-bundle-11.1.15.min.js')      }}" type="text/javascript" ></script>
+
+{# <script src="https://cdn.jsdelivr.net/npm/swiper@11.2.1/swiper-bundle.min.js"></script> #}
+
+<script src="{{ asset('js/jquery.mask.min.js') }}"></script>
+<script src="{{ asset('js/js.cookie.min.js')   }}"></script>
+
+
+<script src="{{ asset('js/main' ~ extensionJs) }}"></script>
+<script src="{{ asset('js/cart.js') }}"></script>
+{# <script src="{{ asset('js/main_unminify.js') }}"></script> #}
+
+{{
+    html.script({
+        '0' : tray.paths.js ~ 'dist/application.min.js?' ~ utils.assets_version
+    })
+}}
+
+
+{% if
+    'home' in pages.current
+%}
+
+
+<script>
+
+    function brandsSlides () {
+
+        new Swiper(`.mySwiperBene`, {
+            slidesPerView: 3,
+            spaceBetween:15,
+            // direction: "horizontal",
+            preloadImages: false,
+            mousewheel: {
+                invert: false,
+                sensitivity: 1,
+            },
+            lazy: {
+                loadPrevNext: true,
+            },
+            loop: false,
+            breakpoints: {
+                0: {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                },
+                680: {
+                    slidesPerView: 4.2,
+                    spaceBetween: 10,
+                },
+                900: {
+                    slidesPerView: 5.2,
+                    spaceBetween: 10,
+                },
+                1000: {
+                    slidesPerView: 6.2,
+                    spaceBetween: 15,
+                },
+            },
+
+            on: {
+                init: function () {
+                    $(`.mySwiperBene`).addClass('show');
+                },
+            },
+        });
+    }
+    function catalogSlides () {
+        new Swiper(`.list-product`, {
+            slidesPerView: 2,
+            loop:false,
+            watchOverflow: true,
+            autoplay: { delay: 6500, disableOnInteraction: true},
+            grabCursor: !0,
+            mousewheelControl: !0,
+            speed: 3000,
+            preloadImages: false,
+            // mousewheel: {
+            //     invert: false,
+            //     sensitivity: 1,
+            // },
+            lazy: {
+                checkInView: true,
+                loadPrevNext: true,
+                loadOnTransitionStart: true,
+                loadPrevNextAmount: 1,
+            },
+            breakpoints: {
+            768: {
+                slidesPerView: 3.4,
+                spaceBetween: 10,
+            },
+            992: {
+                slidesPerView: 4.3,
+            },
+            1200: {
+                slidesPerView: 5,
+            },
+            },
+            on: {
+                init: function () {
+                    $(`.list-product`).addClass('show');
+                },
+            },
+        });
+    }
+
+
+    brandsSlides()
+    catalogSlides()
+</script>
+
+
+
+
+{% endif %}
+

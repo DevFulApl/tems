@@ -1,0 +1,11 @@
+<div class="showcase-catalog showcase-page-{{ pages.current }}">
+    <ul class="list-product flex f-wrap justify-between mlteste">
+        {% for item in products %}
+
+            <li class="item flex">
+                {% element 'snippets/product' { 'product' : item , videoItem : true, borderRadio: true } %}
+            </li>
+
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,16 @@
+{% set title = 'Produtos' %}
+{% set showcase = type %}
+
+{% if showcase == 'top_seller' %} 
+	{% set title = 'Mais Vendidos' %}
+{% elseif showcase == 'new'  %}
+	{% set title = 'Lan&ccedil;amentos' %}
+{% elseif showcase == 'featured'  %}
+	{% set title = 'Destaques' %}
+{% elseif showcase == 'free_shipping'  %}
+	{% set title = 'Frete Gr&aacute;tis' %}
+{% elseif showcase == 'promotion'  %}
+	{% set title = 'Promo&ccedil;&atilde;o' %}
+{% endif %}
+
+{{ title }}

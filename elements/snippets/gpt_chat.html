@@ -1,0 +1,168 @@
+<style>
+  #app {
+      left: 0;
+      right: 0;
+      top: 0;
+      width: 100%;
+      display: flex;
+
+  }
+  @media(min-width:768px){
+    .intercom-ruskli  {
+      border-radius: 16px;
+        padding: 1rem;
+    }
+  }
+  #app #chat_container {
+      width: 100%;
+      overflow-y: scroll;
+      display: flex;
+      bottom: 0;
+      flex-direction: column;
+      gap: 10px;
+      -ms-overflow-style: none;
+      overflow-wrap: anywhere!important;
+      scrollbar-width: none;
+      color: #353740;
+      letter-spacing: .5px;
+      padding-bottom: 20px;
+      scroll-behavior: smooth;
+  }
+  .intercom-ruskli {
+      position: relative;
+      display: flex;
+      /* border: 1px solid #cecece; */
+      height: auto;
+      flex-direction: column;
+      transition: opacity 150ms ease 0s;
+      width: 100%;
+  }
+  #chat_container::-webkit-scrollbar {
+    display: none;
+  }
+
+  #app .wrapper {
+    width: 100%;
+    padding: 15px;
+  }
+
+  #app .chat {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      gap: 10px;
+      flex-direction: row;
+      align-items: center;
+  }
+
+  #app .profile {
+    width: 28px;
+    height: 28px;
+    border-radius: 5px;
+    background: #2f10b8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #app .ai .profile {
+    background: #10a37f;
+  }
+  #app .ai .message {
+    border: 1px solid #0ace9d;
+    box-sizing: border-box;
+  }
+  #app .user .message {
+    border: 1px solid #300cd0;
+  }
+
+  #app .profile img {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+  }
+  #app .message {
+      box-sizing: border-box;
+      flex: 1;
+      font-size: 10px;
+      box-shadow: 0 0 0.51429rem rgba(0,0,0,0.10);
+      max-width: 100%;
+      color: inherit;
+      white-space: break-spaces;
+      -ms-overflow-style: auto;
+      padding: .5rem;
+      scrollbar-width: auto;
+      white-space: break-spaces;
+      line-height: 1.2rem;
+  }
+
+  #app .message::-webkit-scrollbar {
+    display: none;
+  }
+
+  #app form {
+    width: 100%;
+    max-width: 1280px;
+    position: sticky;
+    margin: 0 auto;
+    padding: 10px;
+  }
+  #app textarea {
+      width: 100%;
+      color: inherit;
+      font-size: 10px;
+      padding: 10px;
+      background: #fff;
+      border: none;
+      outline: none;
+      display: none;
+      /* min-height: 22rem; */
+      /* max-height: 40rem; */
+  }
+  #app button {
+    color: #fff;
+    background-color: green;
+    outline: 0;
+    box-shadow: 0 4px 12px 0 rgba(0,0,0,.3);
+    border: 0;
+    min-width: 0;
+    cursor: pointer;
+    border: none;
+      border-radius: 3px;
+      box-sizing: border-box;
+      cursor: pointer;
+      display: inline-flex;
+      font-weight: 400;
+      justify-content: center;
+      line-height: 1.4;
+      position: relative;
+      transition: box-shadow .3s,background-color .3s,color .3s;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      font-size: 14px;
+      line-height: 20px;
+      padding: 6px 12px;
+  }
+
+  #app form img {
+    width: 30px;
+    height: 30px;
+  }
+  #NavVisitados{
+    display: none;
+  }
+  </style>
+  <div id="app">
+
+        <div class="intercom-ruskli">
+          <form id="form_chat">
+            <textarea name="prompt" rows="1" cols="1" placeholder="o Chat GPT coleita dados dos produtos em está categoria {{ category.id }}, para gerar SEO. Click no botão para gerar. Isso pode demorar uns segudos "></textarea>
+            <button type="submit">Criar SEO do produtos Agora ?</button>
+          </form>
+          <div id="chat_container"></div>
+        </div>
+  </div>
+  {# tray commerce #}
+  {# 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 #}
